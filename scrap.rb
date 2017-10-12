@@ -28,12 +28,18 @@ links.each do |ville|
   page = Nokogiri::HTML(open("#{ville}"))   
 
   text_array = page.css('td[class = style27]').text.split
-  mail = []
-
+  error = []
+  
   text_array.each do |element|
-    #mail << element if element.include?("@")
-    scrapped << element if element.include?("@")
+    if element.include?("@")
+    	error << element
+    	scrapped << element   
+    end
   end
+
+    if error.size == 0
+    	scrapped << "UNAVAILABLE"
+    end 
 end 
   puts scrapped
   puts scrapped.size
